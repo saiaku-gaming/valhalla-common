@@ -1,4 +1,4 @@
-package com.valhallagame.ymer.util;
+package com.valhallagame.common;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
