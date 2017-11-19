@@ -14,12 +14,12 @@ import lombok.NoArgsConstructor;
 public class RestResponse<T> {
 	private HttpStatus statusCode;
 	private Optional<T> response;
-	private String message;
+	private String errorMessage;
 
 	public RestResponse(HttpStatus statusCode, Optional<T> response) {
 		this.statusCode = statusCode;
 		this.response = response;
-		this.message = null;
+		this.errorMessage = null;
 	}
 
 	public void setResponse(T response) {

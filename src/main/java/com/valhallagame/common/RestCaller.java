@@ -45,7 +45,7 @@ public class RestCaller {
 				responseBody = extractResponseBody(response, responseClass);
 			}
 		} else {
-			restResponse.setMessage(extractResponseBody(response, StringResponse.class).getMessage());
+			restResponse.setErrorMessage(extractResponseBody(response, StringResponse.class).getMessage());
 		}
 
 		restResponse.setResponse(responseBody);
@@ -71,7 +71,7 @@ public class RestCaller {
 				responseBody = extractResponseBody(response, responseClass);
 			}
 		} else {
-			restResponse.setMessage(extractResponseBody(response, StringResponse.class).getMessage());
+			restResponse.setErrorMessage(extractResponseBody(response, StringResponse.class).getMessage());
 		}
 
 		restResponse.setResponse(responseBody);
