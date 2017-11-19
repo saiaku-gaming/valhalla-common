@@ -27,7 +27,7 @@ public class RestResponse<T> {
 	}
 
 	public boolean isOk() {
-		return HttpStatus.OK.equals(statusCode);
+		return HttpStatus.OK.equals(statusCode) && this.response.isPresent();
 	}
 
 	public static <T> RestResponse<T> errorResponse(Exception e) {
