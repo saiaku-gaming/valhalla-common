@@ -51,4 +51,12 @@ public class JS {
 			this.message = message;
 		}
 	}
+
+	public static ResponseEntity<?> message(RestResponse<?> restResponse) {
+		if (restResponse.isOk()) {
+			return JS.message(HttpStatus.OK, restResponse.getResponse().get());
+		} else {
+			return JS.message(restResponse.getStatusCode(), restResponse.getErrorMessage());
+		}
+	}
 }
