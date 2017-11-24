@@ -5,6 +5,8 @@ import org.springframework.http.ResponseEntity;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
  * Simple utility helper for converting stuff to json.
@@ -54,7 +56,15 @@ public class JS {
 
 	public static ResponseEntity<?> message(RestResponse<?> restResponse) {
 		if (restResponse.isOk()) {
-			return JS.message(HttpStatus.OK, restResponse.getResponse().get());
+			//Response should always be an object (not array or primitive);
+			Object object = restResponse.getResponse().get();
+			if(object instanceof ArrayNode) {
+				ObjectNode o = mapper.createObjectNode();
+				o.set("result", (ArrayNode) object);
+				return JS.message(HttpStatus.OK, o);
+			} else {
+				return JS.message(HttpStatus.OK, object);
+			}
 		} else {
 			return JS.message(restResponse.getStatusCode(), restResponse.getErrorMessage());
 		}
