@@ -2,7 +2,7 @@ package com.valhallagame.common.rabbitmq;
 
 public class RabbitMQRouting {
 	public static enum Exchange {
-		PERSON, FRIEND, PARTY
+		PERSON, FRIEND, PARTY, CHAT
 	}
 
 	public static enum Person {
@@ -14,6 +14,6 @@ public class RabbitMQRouting {
 	}
 
 	public static enum Party {
-		CANCEL_INVITE, ACCEPT_INVITE, DECLINE_INVITE, LEAVE
+		CANCEL_INVITE, ACCEPT_INVITE, DECLINE_INVITE, LEAVE, PROMOTE_LEADER, KICK_FROM_PARTY
 	}
 }
