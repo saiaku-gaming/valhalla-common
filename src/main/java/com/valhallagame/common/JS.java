@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 
 /**
  * Simple utility helper for converting stuff to json.
@@ -16,7 +17,9 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 public class JS {
 
 	private static ObjectMapper mapper = new ObjectMapper();
-
+	static {
+		mapper.registerModule(new Jdk8Module());
+	}
 	public JS() {
 
 	}

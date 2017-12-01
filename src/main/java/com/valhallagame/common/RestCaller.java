@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -22,6 +23,7 @@ public class RestCaller {
 		client = new OkHttpClient();
 		objectMapper = new ObjectMapper();
 		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		objectMapper.registerModule(new Jdk8Module());
 		logging = false;
 	}
 
