@@ -18,7 +18,7 @@ public class RabbitMQRouting {
 	}
 
 	public static enum Chat {
-
+		RECEIVED_MESSAGE
 	}
 
 	public static enum Wardrobe {
