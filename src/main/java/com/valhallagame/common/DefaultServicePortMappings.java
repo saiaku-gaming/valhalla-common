@@ -10,4 +10,5 @@ public class DefaultServicePortMappings {
 	public static int INSTANCE_CONTAINER_SERVICE_PORT = 1240;
 	public static int WARDROBE_SERVICE_PORT = 1241;
 	public static int CHAT_SERVICE_PORT = 1242;
+	public static int INSTANCE_SERVICE_PORT = 1243;
 }
