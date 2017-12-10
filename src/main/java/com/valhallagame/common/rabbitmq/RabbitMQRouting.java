@@ -2,9 +2,14 @@ package com.valhallagame.common.rabbitmq;
 
 public class RabbitMQRouting {
 	public static enum Exchange {
-		PERSON, FRIEND, PARTY, CHAT, WARDROBE
+		PERSON, FRIEND, PARTY, CHAT, WARDROBE, INSTANCE_CONTAINER
 	}
 
+	public static enum InstanceContainer {
+		CREATE, READY
+	}
+	
+	
 	public static enum Person {
 		DELETE, CREATE, ONLINE, OFFLINE
 	}
