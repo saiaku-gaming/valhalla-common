@@ -93,7 +93,7 @@ public class RestCaller {
 			return objectMapper.readValue(response.body().string(), responseClass);
 		}
 	}
-	
+
 	private <T> T extractResponseBody(Response response, TypeReference<T> typeReference) throws IOException {
 		if (logging) {
 			String res = response.body().string();
@@ -105,12 +105,30 @@ public class RestCaller {
 		}
 	}
 
-
-	public <T> RestResponse<T> postCall(String url, Object requestBody,
-			TypeReference<T> typeReference) throws IOException {
+	public <T> RestResponse<T> postCall(String url, Object requestBody, TypeReference<T> typeReference)
+			throws IOException {
 		RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),
 				objectMapper.writeValueAsString(requestBody));
 		Request request = new Request.Builder().url(url).post(body).build();
+		Response response = client.newCall(request).execute();
+
+		RestResponse<T> restResponse = new RestResponse<>();
+		T responseBody = null;
+
+		if (response.code() == 200) {
+			responseBody = extractResponseBody(response, typeReference);
+		} else {
+			restResponse.setErrorMessage(extractResponseBody(response, StringResponse.class).getMessage());
+		}
+
+		restResponse.setResponse(responseBody);
+		restResponse.setStatusCode(HttpStatus.valueOf(response.code()));
+
+		return restResponse;
+	}
+
+	public <T> RestResponse<T> getCall(String url, TypeReference<T> typeReference) throws IOException {
+		Request request = new Request.Builder().url(url).get().build();
 		Response response = client.newCall(request).execute();
 
 		RestResponse<T> restResponse = new RestResponse<>();

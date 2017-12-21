@@ -12,12 +12,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class NotificationMessage {
 	private String username;
-	private String reason;
 	private Map<String, Object> data = new HashMap<>();
 
 	public NotificationMessage(String username, String reason) {
 		this.username = username;
-		this.reason = reason;
+		data.put("reason", reason);
 	}
 
 	public void addData(String key, Object value) {
