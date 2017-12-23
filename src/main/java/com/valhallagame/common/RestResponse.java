@@ -29,6 +29,14 @@ public class RestResponse<T> {
 	public boolean isOk() {
 		return HttpStatus.OK.equals(statusCode) && this.response.isPresent();
 	}
+	
+	public Optional<T> get(){
+		if(HttpStatus.OK.equals(statusCode)) {
+			return this.response;
+		} else {
+			return Optional.empty();
+		}
+	}
 
 	public static <T> RestResponse<T> errorResponse(Exception e) {
 		return new RestResponse<>(HttpStatus.INTERNAL_SERVER_ERROR, Optional.empty(), e.getMessage());
