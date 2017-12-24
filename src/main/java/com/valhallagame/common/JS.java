@@ -20,25 +20,26 @@ public class JS {
 	static {
 		mapper.registerModule(new Jdk8Module());
 	}
-	public JS() {
 
+	private JS() {
+		//NO create, only static...
 	}
 
-	public static ResponseEntity<?> message(HttpStatus status, String message) {
+	public static ResponseEntity<JsonNode> message(HttpStatus status, String message) {
 		return ResponseEntity.status(status).body(JS.message(message));
 	}
 
-	public static ResponseEntity<?> message(HttpStatus status, Optional<?> message) {
+	public static ResponseEntity<JsonNode> message(HttpStatus status, Optional<?> message) {
 		return message.isPresent() ? ResponseEntity.status(status).body(JS.parse(message.get()))
 				: ResponseEntity.status(HttpStatus.NOT_FOUND).body(JS.parse("Not Present"));
 	}
 
-	public static ResponseEntity<?> message(HttpStatus status, Object o) {
+	public static ResponseEntity<JsonNode> message(HttpStatus status, Object o) {
 		return ResponseEntity.status(status).body(JS.parse(o));
 	}
 
-	public static JsonMessage message(String message) {
-		return new JsonMessage(message);
+	public static JsonNode message(String message) {
+		return parse(new JsonMessage(message));
 	}
 
 	public static JsonNode parse(Object o) {
@@ -64,10 +65,10 @@ public class JS {
 		}
 	}
 
-	public static ResponseEntity<?> message(RestResponse<?> restResponse) {
-		if (restResponse.isOk()) {
+	public static ResponseEntity<JsonNode> message(RestResponse<?> restResponse) {
+
+		return restResponse.get().map(object -> {
 			// Response should always be an object (not array or primitive);
-			Object object = restResponse.getResponse().get();
 			if (object instanceof ArrayNode) {
 				ObjectNode o = mapper.createObjectNode();
 				o.set("result", (ArrayNode) object);
@@ -75,8 +76,6 @@ public class JS {
 			} else {
 				return JS.message(HttpStatus.OK, object);
 			}
-		} else {
-			return JS.message(restResponse.getStatusCode(), restResponse.getErrorMessage());
-		}
+		}).orElse(JS.message(restResponse.getStatusCode(), restResponse.getErrorMessage()));
 	}
 }
