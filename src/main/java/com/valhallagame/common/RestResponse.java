@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RestResponse<T> {
 	private HttpStatus statusCode;
-	private Optional<T> response;
+	private Optional<T> response = Optional.empty();
 	private String errorMessage;
 
 	public RestResponse(HttpStatus statusCode, Optional<T> response) {

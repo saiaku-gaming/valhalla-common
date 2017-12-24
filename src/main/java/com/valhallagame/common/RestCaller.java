@@ -2,6 +2,8 @@ package com.valhallagame.common;
 
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -16,6 +18,9 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class RestCaller {
+
+	private static final Logger logger = LoggerFactory.getLogger(RestCaller.class);
+
 	private OkHttpClient client;
 	private ObjectMapper objectMapper;
 	private boolean logging;
@@ -33,61 +38,63 @@ public class RestCaller {
 		this.logging = logging;
 	}
 
-	@SuppressWarnings("unchecked")
 	public <T> RestResponse<T> getCall(String url, Class<T> responseClass) throws IOException {
-		Request request = new Request.Builder().url(url).get().build();
-		Response response = client.newCall(request).execute();
+		Response response = get(url);
 
 		RestResponse<T> restResponse = new RestResponse<>();
-		T responseBody = null;
 
 		if (response.code() == 200) {
-			if (String.class.equals(responseClass)) {
-				responseBody = (T) extractResponseBody(response, StringResponse.class).getMessage();
-			} else {
-				responseBody = extractResponseBody(response, responseClass);
-			}
+			restResponse.setResponse(extractResponseBody(response, responseClass));
 		} else {
 			restResponse.setErrorMessage(extractResponseBody(response, StringResponse.class).getMessage());
 		}
-
-		restResponse.setResponse(responseBody);
 		restResponse.setStatusCode(HttpStatus.valueOf(response.code()));
-
 		return restResponse;
+	}
+
+	public <T> RestResponse<T> getCall(String url, TypeReference<T> typeReference) throws IOException {
+		Response response = get(url);
+
+		RestResponse<T> restResponse = new RestResponse<>();
+
+		if (response.code() == 200) {
+			restResponse.setResponse(extractResponseBody(response, typeReference));
+		} else {
+			restResponse.setErrorMessage(extractResponseBody(response, StringResponse.class).getMessage());
+		}
+		restResponse.setStatusCode(HttpStatus.valueOf(response.code()));
+		return restResponse;
+	}
+
+	private Response get(String url) throws IOException {
+		Request request = new Request.Builder().url(url).get().build();
+		return client.newCall(request).execute();
 	}
 
 	@SuppressWarnings("unchecked")
 	public <T> RestResponse<T> postCall(String url, Object requestBody, Class<T> responseClass) throws IOException {
-		RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),
-				objectMapper.writeValueAsString(requestBody));
-		Request request = new Request.Builder().url(url).post(body).build();
-		Response response = client.newCall(request).execute();
+		Response response = post(url, requestBody);
 
 		RestResponse<T> restResponse = new RestResponse<>();
-		T responseBody = null;
 
 		if (response.code() == 200) {
 			if (String.class.equals(responseClass)) {
-				responseBody = (T) extractResponseBody(response, StringResponse.class).getMessage();
+				restResponse.setResponse((T) extractResponseBody(response, StringResponse.class).getMessage());
 			} else {
-				responseBody = extractResponseBody(response, responseClass);
+				restResponse.setResponse(extractResponseBody(response, responseClass));
 			}
 		} else {
 			restResponse.setErrorMessage(extractResponseBody(response, StringResponse.class).getMessage());
 		}
 
-		restResponse.setResponse(responseBody);
 		restResponse.setStatusCode(HttpStatus.valueOf(response.code()));
-
 		return restResponse;
 	}
 
 	private <T> T extractResponseBody(Response response, Class<T> responseClass) throws IOException {
 		if (logging) {
 			String res = response.body().string();
-			System.out.println(res);
-
+			logger.info(res);
 			return objectMapper.readValue(res, responseClass);
 		} else {
 			return objectMapper.readValue(response.body().string(), responseClass);
@@ -97,8 +104,7 @@ public class RestCaller {
 	private <T> T extractResponseBody(Response response, TypeReference<T> typeReference) throws IOException {
 		if (logging) {
 			String res = response.body().string();
-			System.out.println(res);
-
+			logger.info(res);
 			return objectMapper.readValue(res, typeReference);
 		} else {
 			return objectMapper.readValue(response.body().string(), typeReference);
@@ -107,42 +113,22 @@ public class RestCaller {
 
 	public <T> RestResponse<T> postCall(String url, Object requestBody, TypeReference<T> typeReference)
 			throws IOException {
+		Response response = post(url, requestBody);
+		RestResponse<T> restResponse = new RestResponse<>();
+		if (response.code() == 200) {
+			restResponse.setResponse(extractResponseBody(response, typeReference));
+		} else {
+			restResponse.setErrorMessage(extractResponseBody(response, StringResponse.class).getMessage());
+		}
+		restResponse.setStatusCode(HttpStatus.valueOf(response.code()));
+		return restResponse;
+	}
+
+	private Response post(String url, Object requestBody) throws IOException {
 		RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),
 				objectMapper.writeValueAsString(requestBody));
 		Request request = new Request.Builder().url(url).post(body).build();
-		Response response = client.newCall(request).execute();
-
-		RestResponse<T> restResponse = new RestResponse<>();
-		T responseBody = null;
-
-		if (response.code() == 200) {
-			responseBody = extractResponseBody(response, typeReference);
-		} else {
-			restResponse.setErrorMessage(extractResponseBody(response, StringResponse.class).getMessage());
-		}
-
-		restResponse.setResponse(responseBody);
-		restResponse.setStatusCode(HttpStatus.valueOf(response.code()));
-
-		return restResponse;
+		return client.newCall(request).execute();
 	}
 
-	public <T> RestResponse<T> getCall(String url, TypeReference<T> typeReference) throws IOException {
-		Request request = new Request.Builder().url(url).get().build();
-		Response response = client.newCall(request).execute();
-
-		RestResponse<T> restResponse = new RestResponse<>();
-		T responseBody = null;
-
-		if (response.code() == 200) {
-			responseBody = extractResponseBody(response, typeReference);
-		} else {
-			restResponse.setErrorMessage(extractResponseBody(response, StringResponse.class).getMessage());
-		}
-
-		restResponse.setResponse(responseBody);
-		restResponse.setStatusCode(HttpStatus.valueOf(response.code()));
-
-		return restResponse;
-	}
 }
