@@ -25,8 +25,8 @@ public class JS {
 		//NO create, only static...
 	}
 
-	public static ResponseEntity<JsonNode> message(HttpStatus status, String message) {
-		return ResponseEntity.status(status).body(JS.message(message));
+	public static ResponseEntity<JsonNode> message(HttpStatus status, String message, Object... args) {
+		return ResponseEntity.status(status).body(JS.message(String.format(message, args)));
 	}
 
 	public static ResponseEntity<JsonNode> message(HttpStatus status, Optional<?> message) {
@@ -68,8 +68,8 @@ public class JS {
 	public static ResponseEntity<JsonNode> message(RestResponse<?> restResponse) {
 
 		return restResponse.get().map(object -> {
-			// Response should always be an object (not array or primitive);
 			if (object instanceof ArrayNode) {
+				// ensure that we never return an array.
 				ObjectNode o = mapper.createObjectNode();
 				o.set("result", (ArrayNode) object);
 				return JS.message(HttpStatus.OK, o);
