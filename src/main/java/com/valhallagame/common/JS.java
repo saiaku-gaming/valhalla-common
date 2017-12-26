@@ -35,6 +35,9 @@ public class JS {
 	}
 
 	public static ResponseEntity<JsonNode> message(HttpStatus status, Object o) {
+		if(o instanceof String) {
+			o = message((String) o);
+		}
 		return ResponseEntity.status(status).body(JS.parse(o));
 	}
 
