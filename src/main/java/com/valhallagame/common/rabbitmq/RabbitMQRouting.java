@@ -18,7 +18,7 @@ public class RabbitMQRouting {
 	}
 
 	public enum Friend {
-		ADD, REMOVE, RECEIVED_INVITE, DECLINE_INVITE
+		ADD, REMOVE, RECEIVED_INVITE, DECLINE_INVITE, SENT_INVITE
 	}
 
 	public enum Party {
