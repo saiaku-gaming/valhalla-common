@@ -10,7 +10,7 @@ public class RabbitMQRouting {
 	}
 
 	public enum Instance {
-		DUNGEON_ACTIVE, PERSON_LOGIN, PERSON_LOGOUT, DUNGEON_QUEUED, DUNGEON_FINISHED
+		DUNGEON_ACTIVE, PERSON_LOGIN, PERSON_LOGOUT, DUNGEON_QUEUED, DUNGEON_FINISHED, QUEUE_PLACEMENT_FULFILLED
 	}
 
 	public enum Person {
@@ -36,7 +36,7 @@ public class RabbitMQRouting {
 	public enum Feat {
 		ADD_FEAT
 	}
-	
+
 	public enum Character {
 		DELETE, SELECT
 	}
