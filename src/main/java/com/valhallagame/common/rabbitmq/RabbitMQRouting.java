@@ -10,7 +10,7 @@ public class RabbitMQRouting {
 	}
 
 	public enum Instance {
-		DUNGEON_ACTIVE, PERSON_LOGIN, PERSON_LOGOUT
+		DUNGEON_ACTIVE, PERSON_LOGIN, PERSON_LOGOUT, DUNGEON_QUEUED, DUNGEON_FINISHED
 	}
 
 	public enum Person {
