@@ -9,21 +9,16 @@
 		<version>1.5.8.RELEASE</version>
 	</parent>
 
-	<repositories>
-		<repository>
-			<id>myMavenRepo</id>
-			<url>${myMavenRepoReadUrl}</url>
-		</repository>
-	</repositories>
-
 	<distributionManagement>
 		<repository>
-			<id>myMavenRepo</id>
-			<url>${myMavenRepoWriteUrl}</url>
+			<id>central</id>
+			<name>615a971e282c-central</name>
+       		<url>https://artifactory-lb.taskify.se:8081/libs-release-local</url>
 		</repository>
 		<snapshotRepository>
-			<id>myMavenRepo</id>
-			<url>${myMavenRepoWriteUrl}</url>
+			<id>snapshots</id>
+			<name>615a971e282c-snapshots</name>
+       		<url>https://artifactory-lb.taskify.se:8081/libs-snapshot-local</url>
 		</snapshotRepository>
 	</distributionManagement>
 
