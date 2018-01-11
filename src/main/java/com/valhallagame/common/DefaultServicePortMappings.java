@@ -15,4 +15,5 @@ public class DefaultServicePortMappings {
 	public static final int CHAT_SERVICE_PORT = 1242;
 	public static final int INSTANCE_SERVICE_PORT = 1243;
 	public static final int FEAT_SERVICE_PORT = 1244;
+	public static final int STATISTICS_SERVICE_PORT = 1245;
 }
