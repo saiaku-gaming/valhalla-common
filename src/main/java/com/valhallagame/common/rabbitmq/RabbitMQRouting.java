@@ -42,6 +42,6 @@ public class RabbitMQRouting {
 	}
 	
 	public enum Statistics {
-		ADD_STATISTICS
+		COUNTER
 	}
 }
