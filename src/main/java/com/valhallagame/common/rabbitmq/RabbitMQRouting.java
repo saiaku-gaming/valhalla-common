@@ -34,7 +34,7 @@ public class RabbitMQRouting {
 	}
 
 	public enum Feat {
-		ADD_FEAT
+		ADD
 	}
 
 	public enum Character {
@@ -42,6 +42,6 @@ public class RabbitMQRouting {
 	}
 	
 	public enum Statistics {
-		COUNTER
+		INT_COUNTER
 	}
 }
