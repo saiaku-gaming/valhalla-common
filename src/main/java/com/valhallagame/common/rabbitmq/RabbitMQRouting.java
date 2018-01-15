@@ -34,7 +34,7 @@ public class RabbitMQRouting {
 	}
 
 	public enum Feat {
-		ADD
+		ADD, REMOVE
 	}
 
 	public enum Character {
