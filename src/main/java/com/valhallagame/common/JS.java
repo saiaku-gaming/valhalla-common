@@ -1,5 +1,6 @@
 package com.valhallagame.common;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
@@ -75,6 +76,10 @@ public class JS {
 				// ensure that we never return an array.
 				ObjectNode o = mapper.createObjectNode();
 				o.set("result", (ArrayNode) object);
+				return JS.message(HttpStatus.OK, o);
+			} else if (object instanceof List) {
+				ObjectNode o = mapper.createObjectNode();
+				o.set("result", JS.parse(object));
 				return JS.message(HttpStatus.OK, o);
 			} else {
 				return JS.message(HttpStatus.OK, object);
