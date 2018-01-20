@@ -30,7 +30,7 @@ public class RabbitMQRouting {
 	}
 
 	public enum Wardrobe {
-		ADD_WARDROBE_ITEM
+		ADD_WARDROBE_ITEM, REMOVE_WARDROBE_ITEM
 	}
 
 	public enum Feat {
@@ -40,7 +40,7 @@ public class RabbitMQRouting {
 	public enum Character {
 		DELETE, SELECT
 	}
-	
+
 	public enum Statistics {
 		INT_COUNTER
 	}
