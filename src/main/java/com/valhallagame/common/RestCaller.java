@@ -1,6 +1,7 @@
 package com.valhallagame.common;
 
 import java.io.IOException;
+import java.net.ConnectException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -113,15 +114,22 @@ public class RestCaller {
 
 	public <T> RestResponse<T> postCall(String url, Object requestBody, TypeReference<T> typeReference)
 			throws IOException {
-		Response response = post(url, requestBody);
-		RestResponse<T> restResponse = new RestResponse<>();
-		if (response.code() == 200) {
-			restResponse.setResponse(extractResponseBody(response, typeReference));
-		} else {
-			restResponse.setErrorMessage(extractResponseBody(response, StringResponse.class).getMessage());
+		try {
+			Response response = post(url, requestBody);
+			
+			RestResponse<T> restResponse = new RestResponse<>();
+			if (response.code() == 200) {
+				restResponse.setResponse(extractResponseBody(response, typeReference));
+			} else {
+				restResponse.setErrorMessage(extractResponseBody(response, StringResponse.class).getMessage());
+			}
+			restResponse.setStatusCode(HttpStatus.valueOf(response.code()));
+			return restResponse;
+		} catch (ConnectException e) {
+			throw new IOException("Could not access url: " + url, e);
+		} catch (Exception e) {
+			throw new IOException("Strange things are happening here: " + url, e);
 		}
-		restResponse.setStatusCode(HttpStatus.valueOf(response.code()));
-		return restResponse;
 	}
 
 	private Response post(String url, Object requestBody) throws IOException {
