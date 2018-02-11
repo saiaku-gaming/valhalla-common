@@ -46,6 +46,6 @@ public class RabbitMQRouting {
 	}
 
 	public enum Trait {
-		ADD
+		UNLOCK, LOCK
 	}
 }
