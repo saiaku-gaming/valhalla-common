@@ -74,22 +74,28 @@ public class RestCaller {
 
 	@SuppressWarnings("unchecked")
 	public <T> RestResponse<T> postCall(String url, Object requestBody, Class<T> responseClass) throws IOException {
-		Response response = post(url, requestBody);
+		try {
+			Response response = post(url, requestBody);
 
-		RestResponse<T> restResponse = new RestResponse<>();
+			RestResponse<T> restResponse = new RestResponse<>();
 
-		if (response.code() == 200) {
-			if (String.class.equals(responseClass)) {
-				restResponse.setResponse((T) extractResponseBody(response, StringResponse.class).getMessage());
+			if (response.code() == 200) {
+				if (String.class.equals(responseClass)) {
+					restResponse.setResponse((T) extractResponseBody(response, StringResponse.class).getMessage());
+				} else {
+					restResponse.setResponse(extractResponseBody(response, responseClass));
+				}
 			} else {
-				restResponse.setResponse(extractResponseBody(response, responseClass));
+				restResponse.setErrorMessage(extractResponseBody(response, StringResponse.class).getMessage());
 			}
-		} else {
-			restResponse.setErrorMessage(extractResponseBody(response, StringResponse.class).getMessage());
-		}
 
-		restResponse.setStatusCode(HttpStatus.valueOf(response.code()));
-		return restResponse;
+			restResponse.setStatusCode(HttpStatus.valueOf(response.code()));
+			return restResponse;
+		} catch (ConnectException e) {
+			throw new IOException("Could not access url: " + url, e);
+		} catch (Exception e) {
+			throw new IOException("Strange things are happening here: " + url, e);
+		}
 	}
 
 	private <T> T extractResponseBody(Response response, Class<T> responseClass) throws IOException {
@@ -116,7 +122,7 @@ public class RestCaller {
 			throws IOException {
 		try {
 			Response response = post(url, requestBody);
-			
+
 			RestResponse<T> restResponse = new RestResponse<>();
 			if (response.code() == 200) {
 				restResponse.setResponse(extractResponseBody(response, typeReference));
