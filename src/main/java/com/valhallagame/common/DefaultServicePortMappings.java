@@ -17,4 +17,5 @@ public class DefaultServicePortMappings {
 	public static final int FEAT_SERVICE_PORT = 1244;
 	public static final int STATISTICS_SERVICE_PORT = 1245;
 	public static final int TRAIT_SERVICE_PORT = 1246;
+	public static final int ACTIONBAR_SERVICE_PORT = 1247;
 }
