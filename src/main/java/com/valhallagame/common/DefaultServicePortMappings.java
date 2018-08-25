@@ -18,4 +18,5 @@ public class DefaultServicePortMappings {
 	public static final int STATISTICS_SERVICE_PORT = 1245;
 	public static final int TRAIT_SERVICE_PORT = 1246;
 	public static final int ACTIONBAR_SERVICE_PORT = 1247;
+	public static final int CURRENCY_SERVICE_PORT = 1248;
 }
