@@ -1,16 +1,16 @@
 package com.valhallagame.common;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Simple utility helper for converting stuff to json.
@@ -20,6 +20,7 @@ public class JS {
 	private static ObjectMapper mapper = new ObjectMapper();
 	static {
 		mapper.registerModule(new Jdk8Module());
+		mapper.registerModule(new JavaTimeModule());
 	}
 
 	private JS() {
