@@ -2,7 +2,7 @@ package com.valhallagame.common.rabbitmq;
 
 public class RabbitMQRouting {
 	public enum Exchange {
-		PERSON, FRIEND, PARTY, CHAT, WARDROBE, INSTANCE_CONTAINER, INSTANCE, CHARACTER, FEAT, STATISTICS, TRAIT
+        PERSON, FRIEND, PARTY, CHAT, WARDROBE, INSTANCE_CONTAINER, INSTANCE, CHARACTER, FEAT, STATISTICS, TRAIT, RECIPE
 	}
 
 	public enum InstanceContainer {
@@ -48,4 +48,8 @@ public class RabbitMQRouting {
 	public enum Trait {
 		UNLOCK, LOCK
 	}
+
+    public enum Recipe {
+        ADD, REMOVE
+    }
 }
