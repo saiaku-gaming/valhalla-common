@@ -13,8 +13,9 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Simple utility helper for converting stuff to json.
+ * Simple utility helper for converting stuff to http responses with a json object payload.
  */
+@SuppressWarnings({"WeakerAccess", "OptionalUsedAsFieldOrParameterType", "unused"})
 public class JS {
 
 	private static ObjectMapper mapper = new ObjectMapper();
@@ -32,7 +33,7 @@ public class JS {
 	}
 
 	public static ResponseEntity<JsonNode> message(HttpStatus status, Optional<?> message) {
-		return message.isPresent() ? ResponseEntity.status(status).body(JS.parse(message.get()))
+		return message.isPresent() ? message(status, message.get())
 				: ResponseEntity.status(HttpStatus.NOT_FOUND).body(JS.parse("Not Present"));
 	}
 
@@ -44,29 +45,22 @@ public class JS {
 	}
 
 	public static JsonNode message(String message) {
-		return parse(new JsonMessage(message));
+		return parse(new ObjectWrapperForString(message));
 	}
 
 	public static JsonNode parse(Object o) {
 		return mapper.valueToTree(o);
 	}
 
-	public static class JsonMessage {
-		private String message;
+	private static class ObjectWrapperForString {
+		private final String message;
 
-		public JsonMessage() {
-		}
-
-		public JsonMessage(String message) {
+		public ObjectWrapperForString(String message) {
 			this.message = message;
 		}
 
 		public String getMessage() {
 			return message;
-		}
-
-		public void setMessage(String message) {
-			this.message = message;
 		}
 	}
 
