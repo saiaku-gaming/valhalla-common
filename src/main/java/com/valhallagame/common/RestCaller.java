@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import java.io.IOException;
 import java.net.ConnectException;
 
+@SuppressWarnings({"WeakerAccess", "unused", "Duplicates"})
 public class RestCaller {
 
 	private static final Logger logger = LoggerFactory.getLogger(RestCaller.class);
@@ -90,27 +91,7 @@ public class RestCaller {
 		} catch (ConnectException e) {
 			throw new IOException("Could not access url: " + url, e);
 		} catch (Exception e) {
-			throw new IOException("Strange things are happening here: " + url, e);
-		}
-	}
-
-	private <T> T extractResponseBody(Response response, Class<T> responseClass) throws IOException {
-		if (logging) {
-			String res = response.body().string();
-			logger.info(res);
-			return objectMapper.readValue(res, responseClass);
-		} else {
-			return objectMapper.readValue(response.body().string(), responseClass);
-		}
-	}
-
-	private <T> T extractResponseBody(Response response, TypeReference<T> typeReference) throws IOException {
-		if (logging) {
-			String res = response.body().string();
-			logger.info(res);
-			return objectMapper.readValue(res, typeReference);
-		} else {
-			return objectMapper.readValue(response.body().string(), typeReference);
+			throw new IOException("Error (" + e.getMessage() + ") occurred when calling: " + url + " with request body " + requestBody, e);
 		}
 	}
 
@@ -132,6 +113,23 @@ public class RestCaller {
 		} catch (Exception e) {
 			throw new IOException("Strange things are happening here: " + url, e);
 		}
+	}
+
+
+	private <T> T extractResponseBody(Response response, Class<T> responseClass) throws IOException {
+		String body = response.body() == null ? null : response.body().string();
+		if (logging) {
+			logger.info(body);
+		}
+		return objectMapper.readValue(body, responseClass);
+	}
+
+	private <T> T extractResponseBody(Response response, TypeReference<T> typeReference) throws IOException {
+		String body = response.body() == null ? null : response.body().string();
+		if (logging) {
+			logger.info(body);
+		}
+		return objectMapper.readValue(body, typeReference);
 	}
 
 	private Response post(String url, Object requestBody) throws IOException {
