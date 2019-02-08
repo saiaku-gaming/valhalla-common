@@ -24,7 +24,7 @@
 
 	<groupId>com.valhallagame.valhalla</groupId>
 	<artifactId>common</artifactId>
-	<version>1.7</version>
+	<version>1.8</version>
 	<packaging>jar</packaging>
 
 	<dependencies>
@@ -51,9 +51,9 @@
 			<artifactId>jackson-datatype-jsr310</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>de.siegmar</groupId>
-			<artifactId>logback-gelf</artifactId>
-			<version>1.0.4</version>
+			<groupId>net.logstash.logback</groupId>
+			<artifactId>logstash-logback-encoder</artifactId>
+			<version>5.3</version>
 		</dependency>
 	</dependencies>
 
