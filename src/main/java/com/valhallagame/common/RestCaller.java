@@ -8,6 +8,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import okhttp3.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.http.HttpStatus;
 
 import java.io.IOException;
@@ -65,7 +66,13 @@ public class RestCaller {
 	}
 
 	private Response get(String url) throws IOException {
-		Request request = new Request.Builder().url(url).get().build();
+		Request.Builder builder = new Request.Builder().url(url);
+
+		if(MDC.getMDCAdapter() != null && MDC.get("request_id") != null) {
+			builder.addHeader("X-REQUEST-ID", MDC.get("request_id"));
+		}
+
+		Request request = builder.get().build();
 		return client.newCall(request).execute();
 	}
 
@@ -135,7 +142,14 @@ public class RestCaller {
 	private Response post(String url, Object requestBody) throws IOException {
 		RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),
 				objectMapper.writeValueAsString(requestBody));
-		Request request = new Request.Builder().url(url).post(body).build();
+
+		Request.Builder builder = new Request.Builder().url(url);
+
+		if(MDC.getMDCAdapter() != null && MDC.get("request_id") != null) {
+			builder.addHeader("X-REQUEST-ID", MDC.get("request_id"));
+		}
+
+		Request request = builder.post(body).build();
 		return client.newCall(request).execute();
 	}
 
