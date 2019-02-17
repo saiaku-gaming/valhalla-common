@@ -25,14 +25,16 @@ public class ServiceRequestFilter extends GenericFilterBean {
         try {
             HttpServletRequest request = (HttpServletRequest) servletRequest;
 
-            MDC.put("service_name", appName);
-
-            String clientIp = request.getHeader("X-FORWARDED-FOR");
-            MDC.put("request_ip", clientIp != null ? clientIp : request.getRemoteHost());
-            if(MDC.getMDCAdapter() != null && request.getHeader("X-REQUEST-ID") != null) {
-                MDC.put("request_id", request.getHeader("X-REQUEST-ID"));
-            } else {
-                MDC.put("request_id", UUID.randomUUID().toString());
+            if(MDC.getMDCAdapter() != null)
+            {
+                MDC.put("service_name", appName);
+                String clientIp = request.getHeader("X-FORWARDED-FOR");
+                MDC.put("request_ip", clientIp != null ? clientIp : request.getRemoteHost());
+                if(request.getHeader("X-REQUEST-ID") != null) {
+                    MDC.put("request_id", request.getHeader("X-REQUEST-ID"));
+                } else {
+                    MDC.put("request_id", UUID.randomUUID().toString());
+                }
             }
 
             logger.info("Received {} call on {}", request.getMethod(), request.getRequestURI());
