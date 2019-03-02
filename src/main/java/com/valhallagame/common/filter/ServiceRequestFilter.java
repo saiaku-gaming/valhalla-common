@@ -37,7 +37,10 @@ public class ServiceRequestFilter extends GenericFilterBean {
                 }
             }
 
-            logger.info("Received {} call on {}", request.getMethod(), request.getRequestURI());
+            if(!"/".equals(request.getRequestURI())) {
+                logger.info("Received {} call on {}", request.getMethod(), request.getRequestURI());
+            }
+
             filterChain.doFilter(servletRequest, servletResponse);
 
         } finally {
