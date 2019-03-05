@@ -12,7 +12,7 @@ import java.util.Map;
 @AllArgsConstructor
 public class NotificationMessage {
     private String username;
-    private Map<String, Object> data = new HashMap<>();
+    private final Map<String, Object> data = new HashMap<>();
 
     public NotificationMessage(String username, String reason) {
         this.username = username;
@@ -23,8 +23,17 @@ public class NotificationMessage {
         data.put(key, value);
     }
 
+    public void addData(Map<String, Object> data) {
+        this.data.putAll(data);
+    }
+
     public NotificationMessage withData(String key, Object value) {
         addData(key, value);
+        return this;
+    }
+
+    public NotificationMessage withData(Map<String, Object> data) {
+        addData(data);
         return this;
     }
 }
