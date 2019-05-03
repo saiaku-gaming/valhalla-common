@@ -12,19 +12,19 @@
 	<distributionManagement>
 		<repository>
 			<id>central</id>
-        	<name>a60597f462c3-releases</name>
+        	<name>artifactory-7bbbbf9cff-rvsdd-releases</name>
         	<url>https://artifactory.valhalla-game.com/libs-release-local</url>
 		</repository>
 		<snapshotRepository>
 			<id>snapshots</id>
-	        <name>a60597f462c3-snapshots</name>
+	        <name>artifactory-7bbbbf9cff-rvsdd-snapshots</name>
 	        <url>https://artifactory.valhalla-game.com/libs-snapshot-local</url>
 		</snapshotRepository>
 	</distributionManagement>
 
 	<groupId>com.valhallagame.valhalla</groupId>
 	<artifactId>common</artifactId>
-	<version>1.15</version>
+	<version>1.16</version>
 	<packaging>jar</packaging>
 
 	<dependencies>
