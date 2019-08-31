@@ -24,7 +24,7 @@
 
 	<groupId>com.valhallagame.valhalla</groupId>
 	<artifactId>common</artifactId>
-	<version>1.17</version>
+	<version>1.18</version>
 	<packaging>jar</packaging>
 
 	<dependencies>
