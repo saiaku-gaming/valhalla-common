@@ -14,7 +14,7 @@ public class RabbitMQRouting {
 	}
 
 	public enum Person {
-		DELETE, CREATE, ONLINE, OFFLINE
+        DELETE, CREATE, ONLINE, OFFLINE, DISPLAYNAME_CHANGE
 	}
 
 	public enum Friend {
